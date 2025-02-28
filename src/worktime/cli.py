@@ -1,5 +1,5 @@
 from argparse import ArgumentParser, Namespace
-from datetime import datetime, timedelta
+from datetime import datetime, time, timedelta
 
 from rich.console import Console
 from rich.table import Table
@@ -29,12 +29,26 @@ def parse_args() -> Namespace:
     subparsers.required = True
 
     add_parser = subparsers.add_parser("add", help="Add a new worktime entry")
-    add_parser.add_argument(
-        "--start", type=datetime.fromisoformat, help="Start time", required=True
+    start_group = add_parser.add_mutually_exclusive_group(required=True)
+    start_group.add_argument(
+        "--start", type=datetime.fromisoformat, help="Start datetime in ISO format"
     )
-    add_parser.add_argument(
-        "--end", type=datetime.fromisoformat, help="End time", required=True
+    start_group.add_argument(
+        "--start-time",
+        type=time.fromisoformat,
+        help="Start time for the current day in ISO format",
     )
+
+    end_group = add_parser.add_mutually_exclusive_group(required=True)
+    end_group.add_argument(
+        "--end", type=datetime.fromisoformat, help="End time in ISO format"
+    )
+    end_group.add_argument(
+        "--end-time",
+        type=time.fromisoformat,
+        help="End time for the current day in ISO format",
+    )
+
     add_parser.add_argument(
         "--pause",
         type=int,
@@ -56,10 +70,24 @@ def main() -> None:
     args = parse_args()
 
     if args.command == "add":
+        if args.start:
+            start: datetime = args.start
+        else:
+            start_time: time = args.start_time
+            start = datetime.combine(datetime.now().date(), start_time)
+        if not start.tzinfo:
+            start = start.replace(tzinfo=datetime.now().astimezone().tzinfo)
+
+        if args.end:
+            end: datetime = args.end
+        else:
+            end_time: time = args.end_time
+            end = datetime.combine(datetime.now().date(), end_time)
+        if not end.tzinfo:
+            end = end.replace(tzinfo=datetime.now().astimezone().tzinfo)
+
         with Database(args.database) as db:
-            db.insert_worktime(
-                WorkTime(args.start, args.end, timedelta(minutes=args.pause))
-            )
+            db.insert_worktime(WorkTime(start, end, timedelta(minutes=args.pause)))
     elif args.command == "show":
         if args.week:
             now = datetime.fromisocalendar(datetime.now().year, args.week, 1)
