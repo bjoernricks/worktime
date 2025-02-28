@@ -112,3 +112,5 @@ venv.bak/
 .vim
 
 process.log
+
+worktime.db
