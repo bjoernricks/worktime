@@ -52,6 +52,10 @@ class Database:
                 ).fetchall()
             ]
 
+    def delete_worktime(self, worktime_id: int) -> None:
+        with self._connection as con:
+            con.execute("DELETE FROM worktime WHERE id = ?", (worktime_id,))
+
     def close(self) -> None:
         if self._connection:
             self._connection.close()
