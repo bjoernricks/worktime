@@ -92,7 +92,7 @@ commit_parsers = [
     { message = "^[r|R]emove", group = "<!-- 3 -->🔥 Removed" },
     { message = "^[d|D]oc", group = "<!-- 4 -->📚 Documentation" },
     { message = "^[t|T]est", group = "<!-- 5 -->🧪 Testing" },
-    { message = "^[c|C]hore", group = "<!-- 6 -->⚙️ Miscellaneous" },
+    { message = "^[c|C]hore", group = "<!-- 6 -->️⚙️ Miscellaneous" },
     { message = "^[c|C]i", group = "<!-- 6 -->⚙️ Miscellaneous" },
     { message = "^[m|M]isc", group = "<!-- 6 -->⚙️ Miscellaneous" },
 ]
