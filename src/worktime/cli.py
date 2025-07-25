@@ -8,6 +8,11 @@ from worktime.db import Database
 from worktime.models import WorkTime
 
 
+def display_time_diff(duration1: timedelta, duration2: timedelta) -> str:
+    delta = duration1 - duration2 if duration1 > duration2 else duration2 - duration1
+    return display_timedelta(delta)
+
+
 def display_timedelta(duration: timedelta) -> str:
     days, seconds = duration.days, duration.seconds
     hours = days * 24 + seconds // 3600
@@ -128,7 +133,7 @@ def main() -> None:
             "",
             "",
             "Difference",
-            display_timedelta(total - timedelta(hours=args.total_hours)),
+            display_time_diff(total, timedelta(hours=args.total_hours)),
         )
 
         console = Console()
