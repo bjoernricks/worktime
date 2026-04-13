@@ -6,7 +6,7 @@ readme = "README.md"
 authors = [{ name = "Björn Ricks", email = "bjoern.ricks@gmail.com" }]
 requires-python = ">=3.12"
 license = "MIT"
-dependencies = ["rich>=13.9.4"]
+dependencies = ["rich>=15.0.0"]
 
 [dependency-groups]
 dev = ["git-cliff>=2.8.0"]
