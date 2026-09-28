@@ -9,7 +9,7 @@ license = "MIT"
 dependencies = ["rich>=15.0.0"]
 
 [dependency-groups]
-dev = ["git-cliff>=2.13.1"]
+dev = ["git-cliff>=2.14.2"]
 
 [project.scripts]
 worktime = "worktime.cli:main"
